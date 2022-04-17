@@ -1,0 +1,31 @@
+{
+    "name": "armin-widget/slider",
+    "description": "An Armincms Widget based on Nova and Cypress.",
+    "keywords": [
+        "laravel",
+        "nova",
+        "cypress"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Armincms\\Widgets\\Slider\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Armincms\\Widgets\\Slider\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "version": "0.1.0"
+}
