@@ -58,4 +58,23 @@ class CarouselItem extends Model implements HasMedia
     {
         return $this->belongsTo(Carousel::class);
     }
+
+    /**
+     * Serialize the model to pass into the client view for single item.
+     *
+     * @param Zareismail\Cypress\Request\CypressRequest
+     * @return array
+     */
+    public function serializeForWidget($request)
+    {
+        return [
+            'id'        => $this->getKey(),
+            'target'      => $this->target,
+            'title'      => $this->title,
+            'link'      => $this->link,
+            'order'      => $this->order,
+            'caption'     => $this->caption,   
+            'images'    => $this->getFirstMediasWithConversions()->get('image'),
+        ];
+    } 
 }

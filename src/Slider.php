@@ -49,7 +49,7 @@ class Slider extends GutenbergWidget
                 ->rules('required', 'digits_between:3,4'),
 
             BooleanGroup::make(__('Carousel options'), 'config->options')
-                ->options($optsions = [
+                ->options($options = [
                     'controls'  => __('Display carousel controls'),
                     'indicator' => __('Display carousel indicator'),
                     'autoplay'  => __('Auto play carousel'),
@@ -60,23 +60,7 @@ class Slider extends GutenbergWidget
                 ])
                 ->default(array_map(function() {
                     return true;
-                }, $optsions)),       
-        ];
-    } 
-
-    /**
-     * Serialize the widget fro display.
-     * 
-     * @return array
-     */
-    public function serializeForDisplay(): array
-    {    
-        return [  
-            'carousel' => $this->carousel()->toArray(),
-            'items' => $this->carousel()->items->map->toArray(),
-            'optsions' => array_merge((array) $this->metaValue('options'), [
-                'speed' => $this->metaValue('speed'),
-            ]),
+                }, $options)),       
         ];
     } 
 
@@ -91,6 +75,21 @@ class Slider extends GutenbergWidget
     {
         return $query->handledBy(SliderWidget::class);
     }  
+
+    /**
+     * Prepare the resource for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array_merge(parent::jsonSerialize(), [   
+            'items' => $this->carousel()->items->map->serializeForWidget($this->getRequest()),
+            'options' => array_merge((array) $this->metaValue('options'), [
+                'speed' => $this->metaValue('speed'),
+            ]),
+        ]);
+    }
 
     public function carousel()
     {
